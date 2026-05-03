@@ -11,14 +11,15 @@ const LABEL: Record<Step, string> = {
 export function Stepper({ current }: { current: Step }) {
   const currentIdx = ORDER.indexOf(current);
   return (
-    <ol className="flex items-center gap-2 text-sm">
+    <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm sm:flex-nowrap">
       {ORDER.map((s, i) => {
         const state = i < currentIdx ? "done" : i === currentIdx ? "active" : "todo";
+        const isActive = state === "active";
         return (
-          <li key={s} className="flex items-center gap-2">
+          <li key={s} className="flex items-center gap-1.5 sm:gap-2">
             <span
               className={[
-                "inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold",
+                "inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold",
                 state === "done" && "bg-emerald-500 text-white",
                 state === "active" && "bg-indigo-600 text-white",
                 state === "todo" && "bg-neutral-200 text-neutral-500",
@@ -29,11 +30,16 @@ export function Stepper({ current }: { current: Step }) {
               {i + 1}
             </span>
             <span
-              className={state === "active" ? "font-medium text-neutral-900" : "text-neutral-500"}
+              className={[
+                isActive ? "font-medium text-neutral-900" : "text-neutral-500",
+                isActive ? "" : "hidden sm:inline",
+              ].join(" ")}
             >
               {LABEL[s]}
             </span>
-            {i < ORDER.length - 1 && <span className="mx-1 text-neutral-300">/</span>}
+            {i < ORDER.length - 1 && (
+              <span className="mx-1 hidden text-neutral-300 sm:inline">/</span>
+            )}
           </li>
         );
       })}

@@ -7,7 +7,7 @@ export function Navbar() {
 
     return (
         <header className="border-b border-neutral-200 bg-white">
-            <div className="mx-auto grid max-w-5xl grid-cols-3 items-center px-6 py-3">
+            <div className="mx-auto grid max-w-5xl grid-cols-[auto_1fr_auto] items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6">
                 {/* Left: brand */}
                 <div className="justify-self-start">
                     <Link
@@ -15,21 +15,18 @@ export function Navbar() {
                         className="flex items-center gap-2 text-neutral-900 hover:opacity-80"
                         aria-label="Accenture Security — home"
                     >
-                        <img
-                            src={accentureIcon}
-                            alt=""
-                            className="h-7 w-auto"
-                        />
+                        <img src={accentureIcon} alt="" className="h-6 w-auto sm:h-7" />
                     </Link>
                 </div>
 
                 {/* Center: nav */}
-                <nav className="flex items-center justify-center gap-1 text-sm font-medium">
+                <nav className="flex items-center justify-center gap-0.5 text-xs font-medium sm:gap-1 sm:text-sm">
                     <NavItem to="/" end>
                         Home
                     </NavItem>
                     <NavItem to="/prompt">
-                        Create Prompt
+                        <span className="sm:hidden">Prompt</span>
+                        <span className="hidden sm:inline">Create Prompt</span>
                     </NavItem>
                     <NavItem to="/help">
                         Help
@@ -37,7 +34,7 @@ export function Navbar() {
                 </nav>
 
                 {/* Right: role reset (only when applicable) */}
-                <div className="flex items-center justify-end gap-3">
+                <div className="flex items-center justify-end">
                     {role && (
                         <button
                             type="button"
@@ -45,7 +42,8 @@ export function Navbar() {
                             className="text-xs text-neutral-600 hover:text-indigo-600 hover:underline"
                             title={`Role: ${role.role}`}
                         >
-                            Reset Role / Clear Session
+                            <span className="sm:hidden">Reset</span>
+                            <span className="hidden sm:inline">Reset Role / Clear Session</span>
                         </button>
                     )}
                 </div>
@@ -69,7 +67,7 @@ function NavItem({
             end={end}
             className={({ isActive }) =>
                 [
-                    "rounded-md px-3 py-1.5 transition-colors",
+                    "rounded-md px-2 py-1.5 transition-colors sm:px-3",
                     isActive
                         ? "bg-indigo-600/10 text-indigo-700"
                         : "text-neutral-600 hover:text-neutral-900",

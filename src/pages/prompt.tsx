@@ -41,8 +41,8 @@ function Prompt() {
   };
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-8">
-      <div className="mb-8">
+    <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mb-6 sm:mb-8">
         <Stepper current={step} />
       </div>
 
@@ -50,7 +50,7 @@ function Prompt() {
         <RoleBanner role={role} onEdit={() => setStep("role")} />
       )}
 
-      <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-6">
         {step === "role" && (
           <RoleStep
             key={templateId ?? "session"}
@@ -101,12 +101,12 @@ function RoleBanner({
   onEdit: () => void;
 }) {
   return (
-    <div className="mb-4 flex items-start justify-between gap-4 rounded-md border border-emerald-100 bg-emerald-50/60 px-4 py-3 text-sm">
-      <div>
+    <div className="mb-4 flex items-start justify-between gap-3 rounded-md border border-emerald-100 bg-emerald-50/60 px-3 py-3 text-sm sm:px-4">
+      <div className="min-w-0">
         <div className="text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
           Saved for this session
         </div>
-        <div className="mt-0.5 text-neutral-800">
+        <div className="mt-0.5 break-words text-neutral-800">
           <span className="font-medium">{role.role}</span>
           {role.objectives && <span className="text-neutral-600"> — {role.objectives}</span>}
         </div>
