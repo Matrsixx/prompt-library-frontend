@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { useSessionRole } from "../../context/SessionRoleContext";
+import accentureIcon from "../../assets/Accenture_Icon.svg";
 
 export function Navbar() {
     const { role, clearRole } = useSessionRole();
@@ -11,9 +12,14 @@ export function Navbar() {
                 <div className="justify-self-start">
                     <Link
                         to="/"
-                        className="text-lg font-semibold tracking-tight text-neutral-900 hover:text-indigo-600"
+                        className="flex items-center gap-2 text-neutral-900 hover:opacity-80"
+                        aria-label="Accenture Security — home"
                     >
-                        <span className="lowercase">Accenture Security</span>
+                        <img
+                            src={accentureIcon}
+                            alt=""
+                            className="h-7 w-auto"
+                        />
                     </Link>
                 </div>
 
