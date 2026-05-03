@@ -6,7 +6,7 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-12">
+    <main className="mx-auto max-w-5xl px-6 pt-12">
       <section>
         <header className="mx-auto max-w-3xl">
           <h3 className="text-lg font-semibold tracking-tight text-neutral-900">
@@ -40,13 +40,13 @@ function Home() {
 
         <ol className="mt-6 space-y-3 text-sm text-neutral-700">
           <Bullet n={1} title="Setting the stage">
-            Your role, objective, and context. Saved per session so you're not re-asked.
+            What is your role and what are your objectives? Is there context about your work that Claude should know about?
           </Bullet>
           <Bullet n={2} title="Defining the task">
-            What do you want Claude to do? Suggestions appear as you type.
+            What action do you want Claude to take? Do you want Claude to write, analyze, build, or something else?
           </Bullet>
           <Bullet n={3} title="Specifying rules">
-            Tone, format, reference examples.
+            What's the style or tone you want Claude to use? Are there examples that you can attach to show Claude what you're looking for?
           </Bullet>
         </ol>
 
@@ -56,7 +56,7 @@ function Home() {
             onClick={() => navigate("/prompt")}
             className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500"
           >
-            Start a new prompt
+            Create Prompt
           </button>
         </div>
       </section>

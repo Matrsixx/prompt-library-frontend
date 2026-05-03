@@ -44,6 +44,17 @@ export function RoleStep({ initial, onSave }: Props) {
               {t.title}
             </button>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              setRole("");
+              setObjectives("");
+              setContext("");
+            }}
+            className="rounded-full border border-dashed border-neutral-400 bg-white px-3 py-1 text-xs font-medium text-neutral-600 transition hover:border-indigo-400 hover:text-indigo-700"
+          >
+            Use My Own Role Context
+          </button>
         </div>
       </div>
 

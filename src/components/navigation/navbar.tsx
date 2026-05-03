@@ -13,7 +13,7 @@ export function Navbar() {
                         to="/"
                         className="text-lg font-semibold tracking-tight text-neutral-900 hover:text-indigo-600"
                     >
-                        <span className="lowercase">Accenture</span>
+                        <span className="lowercase">Accenture Security</span>
                     </Link>
                 </div>
 
