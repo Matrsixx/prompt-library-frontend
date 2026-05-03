@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { RoleContext } from "../../types";
+import { ROLE_TEMPLATES, type RoleTemplate } from "../../data/roleTemplates";
 
 type Props = {
   initial: RoleContext;
@@ -13,6 +14,12 @@ export function RoleStep({ initial, onSave }: Props) {
 
   const canContinue = role.trim().length > 0 && objectives.trim().length > 0;
 
+  const applyTemplate = (t: RoleTemplate) => {
+    setRole(t.context.role);
+    setObjectives(t.context.objectives);
+    setContext(t.context.context);
+  };
+
   return (
     <section className="space-y-6">
       <header>
@@ -21,6 +28,24 @@ export function RoleStep({ initial, onSave }: Props) {
           Saved for this session — you won't be asked again until you reset it.
         </p>
       </header>
+
+      <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3">
+        <span className="block text-[10px] font-semibold uppercase tracking-wide text-neutral-500">
+          Start from a template
+        </span>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {ROLE_TEMPLATES.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => applyTemplate(t)}
+              className="rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs font-medium text-neutral-700 transition hover:border-indigo-400 hover:text-indigo-700"
+            >
+              {t.title}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="space-y-5">
         <Field
