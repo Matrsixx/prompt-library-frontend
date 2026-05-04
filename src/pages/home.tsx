@@ -6,36 +6,31 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <main className="mx-auto max-w-5xl px-6 pt-12">
-      <section>
-        <header className="mx-auto max-w-3xl">
-          <h3 className="text-lg font-semibold tracking-tight text-neutral-900">
-            Role templates
-          </h3>
-          <p className="mt-1 text-sm text-neutral-600">
-            Pre-written role briefs you can paste straight into any LLM, or use as the starting
-            point for a new prompt here.
-          </p>
-        </header>
-
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {ROLE_TEMPLATES.map((t) => (
-            <TemplateCard
-              key={t.id}
-              template={t}
-              onUse={() => navigate("/prompt", { state: { templateId: t.id } })}
-            />
-          ))}
+    <main className="mx-auto max-w-5xl px-6 pt-12 pb-16">
+      <section
+        id="about"
+        className="mx-auto max-w-3xl rounded-xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-white p-8 shadow-sm"
+      >
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center rounded-full bg-indigo-600/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-700">
+            About
+          </span>
+          <span className="inline-flex items-center rounded-full bg-neutral-900/5 px-3 py-1 text-xs font-medium text-neutral-700">
+            Based on Claude 101
+          </span>
         </div>
-      </section>
 
-      <section className="mx-auto max-w-3xl rounded-xl border border-neutral-200 bg-white p-8 shadow-sm mt-12">
-        <h2 className="text-2xl font-semibold tracking-tight text-neutral-900">
+        <h2 className="mt-4 text-2xl font-semibold tracking-tight text-neutral-900">
           Build better prompts, faster.
         </h2>
-        <p className="mt-2 text-sm text-neutral-600">
-          Three small steps — set the stage, define the task, specify the rules — then copy your
-          prompt or hand it off to Claude.
+        <p className="mt-3 text-sm leading-relaxed text-neutral-700">
+          The structure used in this app — <span className="font-medium text-neutral-900">setting the stage</span>,{" "}
+          <span className="font-medium text-neutral-900">defining the task</span>, and{" "}
+          <span className="font-medium text-neutral-900">specifying the rules</span> — is taken directly
+          from the prompt-engineering framework taught in{" "}
+          <span className="font-medium text-neutral-900">Claude 101</span> on Anthropic Academy.
+          Anyone using this app is automatically following Anthropic's recommended approach for
+          writing high-quality prompts — no prior prompt-engineering experience required.
         </p>
 
         <ol className="mt-6 space-y-3 text-sm text-neutral-700">
@@ -58,6 +53,28 @@ function Home() {
           >
             Create Prompt
           </button>
+        </div>
+      </section>
+
+      <section className="mt-12">
+        <header className="mx-auto max-w-3xl">
+          <h3 className="text-lg font-semibold tracking-tight text-neutral-900">
+            Role templates
+          </h3>
+          <p className="mt-1 text-sm text-neutral-600">
+            Pre-written role briefs you can paste straight into any LLM, or use as the starting
+            point for a new prompt here.
+          </p>
+        </header>
+
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {ROLE_TEMPLATES.map((t) => (
+            <TemplateCard
+              key={t.id}
+              template={t}
+              onUse={() => navigate("/prompt", { state: { templateId: t.id } })}
+            />
+          ))}
         </div>
       </section>
     </main>
