@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
-import type { RulesContext, Step, TaskContext } from "../types";
+import type { RoleContext, RulesContext, Step, TaskContext } from "../types";
 import { Stepper } from "../components/prompt/Stepper";
 import { RoleStep } from "../components/prompt/RoleStep";
 import { TaskStep } from "../components/prompt/TaskStep";
@@ -8,21 +8,32 @@ import { RulesStep } from "../components/prompt/RulesStep";
 import { ResultStep } from "../components/prompt/ResultStep";
 import { buildPrompt } from "../lib/buildPrompt";
 import { useSessionRole } from "../context/SessionRoleContext";
-import { ROLE_TEMPLATES } from "../data/roleTemplates";
+import type { ApiTemplate } from "../lib/api";
 
 const EMPTY_ROLE = { role: "", objectives: "", context: "" };
 const EMPTY_TASK: TaskContext = { action: "" };
 const EMPTY_RULES: RulesContext = { tone: "professional", format: "", examples: "" };
 
+type LocationState = {
+  template?: ApiTemplate;
+};
+
 function Prompt() {
   const { role, setRole } = useSessionRole();
   const location = useLocation();
-  const templateId = (location.state as { templateId?: string } | null)?.templateId;
-  const template = templateId ? ROLE_TEMPLATES.find((t) => t.id === templateId) : undefined;
+  const state = (location.state ?? null) as LocationState | null;
+  const template = state?.template;
+  const templateContext: RoleContext | undefined = template?.context;
 
   const [task, setTask] = useState<TaskContext>(EMPTY_TASK);
   const [rules, setRules] = useState<RulesContext>(EMPTY_RULES);
   const [step, setStep] = useState<Step>(template ? "role" : role ? "task" : "role");
+
+  // When a template is clicked from the home page, pre-fill the saved role
+  // immediately so the user can skip the role step on subsequent navigation.
+  useEffect(() => {
+    if (templateContext) setRole(templateContext);
+  }, [templateContext, setRole]);
 
   // If role is cleared from the navbar, bounce the user back to the role step.
   useEffect(() => {
@@ -53,8 +64,8 @@ function Prompt() {
       <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-6">
         {step === "role" && (
           <RoleStep
-            key={templateId ?? "session"}
-            initial={template ? template.context : (role ?? EMPTY_ROLE)}
+            key={template?.id ?? "session"}
+            initial={templateContext ?? role ?? EMPTY_ROLE}
             onSave={(r) => {
               setRole(r);
               setStep("task");
