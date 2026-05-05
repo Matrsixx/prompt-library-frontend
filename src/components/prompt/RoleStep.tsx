@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { RoleContext } from "../../types";
-import { ROLE_TEMPLATES, type RoleTemplate } from "../../data/roleTemplates";
+import { useRoleTemplates } from "../../hooks/useRoleTemplates";
+import type { ApiTemplate } from "../../lib/api";
 
 type Props = {
   initial: RoleContext;
@@ -11,10 +12,11 @@ export function RoleStep({ initial, onSave }: Props) {
   const [role, setRole] = useState(initial.role);
   const [objectives, setObjectives] = useState(initial.objectives);
   const [context, setContext] = useState(initial.context);
+  const { templates, loading, error } = useRoleTemplates();
 
   const canContinue = role.trim().length > 0 && objectives.trim().length > 0;
 
-  const applyTemplate = (t: RoleTemplate) => {
+  const applyTemplate = (t: ApiTemplate) => {
     setRole(t.context.role);
     setObjectives(t.context.objectives);
     setContext(t.context.context);
@@ -33,29 +35,47 @@ export function RoleStep({ initial, onSave }: Props) {
         <span className="block text-[10px] font-semibold uppercase tracking-wide text-neutral-500">
           Start from a template
         </span>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {ROLE_TEMPLATES.map((t) => (
+        {loading && templates.length === 0 ? (
+          <p className="mt-2 text-xs text-neutral-500">Loading templates…</p>
+        ) : (
+          <div className="mt-2 flex flex-wrap gap-2">
+            {templates.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => applyTemplate(t)}
+                className={
+                  t.isCustom
+                    ? "inline-flex items-center gap-1 rounded-full border border-indigo-300 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700 transition hover:border-indigo-500"
+                    : "rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs font-medium text-neutral-700 transition hover:border-indigo-400 hover:text-indigo-700"
+                }
+              >
+                {t.title}
+                {t.isCustom && (
+                  <span className="text-[9px] uppercase tracking-wide text-indigo-500">
+                    custom
+                  </span>
+                )}
+              </button>
+            ))}
             <button
-              key={t.id}
               type="button"
-              onClick={() => applyTemplate(t)}
-              className="rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs font-medium text-neutral-700 transition hover:border-indigo-400 hover:text-indigo-700"
+              onClick={() => {
+                setRole("");
+                setObjectives("");
+                setContext("");
+              }}
+              className="rounded-full border border-dashed border-neutral-400 bg-white px-3 py-1 text-xs font-medium text-neutral-600 transition hover:border-indigo-400 hover:text-indigo-700"
             >
-              {t.title}
+              Use My Own Role Context
             </button>
-          ))}
-          <button
-            type="button"
-            onClick={() => {
-              setRole("");
-              setObjectives("");
-              setContext("");
-            }}
-            className="rounded-full border border-dashed border-neutral-400 bg-white px-3 py-1 text-xs font-medium text-neutral-600 transition hover:border-indigo-400 hover:text-indigo-700"
-          >
-            Use My Own Role Context
-          </button>
-        </div>
+          </div>
+        )}
+        {error && (
+          <p className="mt-2 text-[11px] text-amber-700">
+            Backend unreachable — showing built-in templates only.
+          </p>
+        )}
       </div>
 
       <div className="space-y-5">
